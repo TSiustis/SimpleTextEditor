@@ -87,7 +87,7 @@ public class GUI extends JFrame implements ActionListener{
 	            e.printStackTrace();
 	        }
 
-	        // Set Actions:
+	       
 	      selectAllAction = new SelectAllAction("Select All",  "Select all text", new Integer(KeyEvent.VK_A),
 	                textArea);
 
@@ -125,7 +125,6 @@ public class GUI extends JFrame implements ActionListener{
 	        // Cut Text
 	        cut = new JMenuItem(new DefaultEditorKit.CutAction());
 	        cut.setText("Cut");
-	       // cut.setIcon(cutIcon);
 	        cut.setToolTipText("Cut");
 	        cut.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, InputEvent.CTRL_MASK));
 	        menuEdit.add(cut);
@@ -141,13 +140,9 @@ public class GUI extends JFrame implements ActionListener{
 	        wordWrap.addActionListener(new ActionListener()
 	        {
 	                public void actionPerformed(ActionEvent ev) {
-	                    // If wrapping is false then after clicking on menuitem the word wrapping will be enabled
 	                    if(textArea.getLineWrap()==false) {
-	                        /* Setting word wrapping to true */
 	                        textArea.setLineWrap(true);
 	                    } else {
-	                        // else  if wrapping is true then after clicking on menuitem the word wrapping will be disabled
-	                        /* Setting word wrapping to false */
 	                        textArea.setLineWrap(false);
 	                }
 	            }
@@ -175,12 +170,11 @@ public class GUI extends JFrame implements ActionListener{
 	   
 	        mainToolbar = new JToolBar();
 	        this.add(mainToolbar, BorderLayout.NORTH);
-	        // used to create space between button groups
+	        //  create space between button groups
 	        Border emptyBorder = BorderFactory.createEmptyBorder(0, 0, 0, 50);
 
 
 
-	        //FONT FAMILY SETTINGS SECTION 
 
 	        fontType = new JComboBox();
 
@@ -189,23 +183,18 @@ public class GUI extends JFrame implements ActionListener{
 
 	        for (int i = 0; i < fonts.length; i++)
 	        {
-	            //Adding font family names to font[] array
 	             fontType.addItem ( fonts [i] );
 	        }
-	        //Setting maximize size of the fontType ComboBox
 	        fontType.setMaximumSize( new Dimension ( 170, 30 ));
 	        mainToolbar.add( fontType );
 	        mainToolbar.addSeparator();
 
-	        //Adding Action Listener on fontType JComboBox
 
 	        fontType.addActionListener(new ActionListener()
 	        {
 	                public void actionPerformed(ActionEvent ev)
 	                {
-	                    //Getting the selected fontType value from ComboBox
 	                    String p = fontType.getSelectedItem().toString();
-	                    //Getting size of the current font or text
 	                    int s = textArea.getFont().getSize();
 	                    textArea.setFont( new Font( p, Font.PLAIN, s));
 	                }
@@ -213,8 +202,6 @@ public class GUI extends JFrame implements ActionListener{
 
 	       
 
-
-	        //FONT SIZE SETTINGS START
 
 	        fontSize = new JComboBox();
 
@@ -246,80 +233,57 @@ public class GUI extends JFrame implements ActionListener{
 	  
 
 	    public void actionPerformed (ActionEvent e) {
-	        // If the source of the event was our "close" option
 	        if (e.getSource() == close ) {
-	            this.dispose(); // dispose all resources and close the application
+	            this.dispose();
 	        }
-	        // If the source was the "new" file option
 	        else if (e.getSource() == newFile) {
 	            NewFile.clear(textArea);
 	        }
 
-	        // If the source was the "open" option
 	        else if (e.getSource() == openFile) {
-	            JFileChooser open = new JFileChooser(); // open up a file chooser (a dialog for the user to  browse files to open)
-	            int option = open.showOpenDialog(this); // get the option that the user selected (approve or cancel)
+	            JFileChooser open = new JFileChooser(); 
+	            int option = open.showOpenDialog(this);
 
-	            /*
-	             * NOTE: because we are OPENing a file, we call showOpenDialog~ if
-	             * the user clicked OK, we have "APPROVE_OPTION" so we want to open
-	             * the file
-	             */
+	         
 	            if (option == JFileChooser.APPROVE_OPTION) {
 	                NewFile.clear(textArea); // clear the TextArea before applying the file contents
 	                try {
-	                    // create a scanner to read the file (getSelectedFile().getPath() will get the path to the file)
 	                    Scanner scan = new Scanner(new FileReader(open.getSelectedFile().getPath()));
-	                    while (scan.hasNext()) // while there's still something to
-	                                            // read
-	                        textArea.append(scan.nextLine() + "\n"); // append the line to the TextArea
-	                } catch (Exception ex) { // catch any exceptions, and...
-	                    // ...write to the debug console
-	                    System.out.println(ex.getMessage());
+	                    while (scan.hasNext()) 
+	                        textArea.append(scan.nextLine() + "\n"); 
+	                } catch (Exception e) { 
+	                    System.out.println(e.getMessage());
 	                }
 	            }
 	        }
-	        // If the source of the event was the "save" option
 	        else if (e.getSource() == saveFile ) {
-	            // Open a file chooser
 	            JFileChooser fileChoose = new JFileChooser();
-	            // Open the file, only this time we call
 	            int option = fileChoose.showSaveDialog(this);
 
-	            /*
-	             * ShowSaveDialog instead of showOpenDialog if the user clicked OK
-	             * (and not cancel)
-	             */
+	          
 	            if (option == JFileChooser.APPROVE_OPTION) {
 	                try {
 	                    File file = fileChoose.getSelectedFile();
 	                    // Set the new title of the window
 	                    setTitle(file.getName() + " | " + TextEditor.NAME);
-	                    // Create a buffered writer to write to a file
 	                    BufferedWriter out = new BufferedWriter(new FileWriter(file.getPath()));
 	                    // Write the contents of the TextArea to the file
 	                    out.write(textArea.getText());
-	                    // Close the file stream
 	                    out.close();
 
 	          
 	                            
 	                        
 	                    
-	                } catch (Exception ex) { // again, catch any exceptions and...
-	                    // ...write to the debug console
-	                    System.out.println(ex.getMessage());
+	                } catch (Exception e) { 
+	                    System.out.println(e.getMessage());
 	                }
-	                // Clear File (Code)
-	    	       
 	           
 	        }
-	      //  }
+	        }
 
 	       
 
-	        // About Me
-	     
 
 	    
 
@@ -337,9 +301,7 @@ public class GUI extends JFrame implements ActionListener{
  	        }
 }
 	    class SelectAllAction extends AbstractAction {
-  	        /**
-  	         * Used for Select All function
-  	         */
+  	        
   	        private static final long serialVersionUID = 1L;
 
   	        public SelectAllAction(String text, String desc, Integer mnemonic, final JTextArea textArea) {

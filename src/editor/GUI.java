@@ -135,7 +135,8 @@ public class GUI extends JFrame implements ActionListener{
 	        wordWrap.setToolTipText("Word Wrap");
 	        wordWrap.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_W, InputEvent.CTRL_MASK));
 	        menuEdit.add(wordWrap);
-
+		JScrollPane pane = new JScrollPane(textArea);
+                this.add(pane);	
 	       
 	        wordWrap.addActionListener(new ActionListener()
 	        {
@@ -238,6 +239,7 @@ public class GUI extends JFrame implements ActionListener{
 	        }
 	        else if (e.getSource() == newFile) {
 	            NewFile.clear(textArea);
+		     textArea.setCaretPosition(0);
 	        }
 
 	        else if (e.getSource() == openFile) {
@@ -251,6 +253,7 @@ public class GUI extends JFrame implements ActionListener{
 	                    Scanner scan = new Scanner(new FileReader(open.getSelectedFile().getPath()));
 	                    while (scan.hasNext()) 
 	                        textArea.append(scan.nextLine() + "\n"); 
+			     textArea.setCaretPosition(0);
 	                } catch (Exception e) { 
 	                    System.out.println(e.getMessage());
 	                }
